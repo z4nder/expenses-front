@@ -1,16 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Guard from './middleware'
 
-const Login = () => import('@/pages/auth/login.vue')
+import LayoutGuest from '../layouts/Guest.vue'
+import LayoutDefault from '../layouts/Default.vue'
+
+import Login from '../pages/auth/login.vue'
+
+import ExpenseIndex from '../pages/expense/index.vue'
 
 const routes = [
   {
-    name: 'login',
+    path: '/',
+    component: LayoutDefault,
+    beforeEnter: Guard.redirectIfNotAuthenticated,
+    children: [{ path: '', name: 'index', component: ExpenseIndex }]
+  },
+  {
     path: '/login',
-    component: Login,
-    meta: {
-      middleware: 'guest',
-      title: `Login`
-    }
+    component: LayoutGuest,
+    beforeEnter: Guard.redirectIfAuthenticated,
+    children: [{ path: '', name: 'login', component: Login }]
+  },
+  {
+    path: '/register',
+    component: LayoutGuest,
+    children: [{ path: '', name: 'register', component: Login }]
   }
 ]
 
@@ -18,20 +32,5 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
-
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.middleware == 'guest') {
-//     if (store.state.auth.authenticated) {
-//       next({ name: 'dashboard' })
-//     }
-//     next()
-//   } else {
-//     if (store.state.auth.authenticated) {
-//       next()
-//     } else {
-//       next({ name: 'login' })
-//     }
-//   }
-// })
 
 export default router

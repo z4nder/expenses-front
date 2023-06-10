@@ -1,10 +1,10 @@
-import { computed } from 'vue'
-import apiClient from '../plugins/apiClient'
+import { ref } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
 
-type User = {
-  name: string
-  email?: string
-}
+import Cookie from '../plugins/cookie'
+import { useUserStore } from '../store/useUserStore'
+import dataFormat from '../plugins/dataFormat'
 
 type Login = {
   email: string
@@ -18,39 +18,34 @@ type Register = {
   confirm_password: string
 }
 
-// Value is initialized in: ~/plugins/auth.ts
-export const useUser = () => {
-  return {
-    name: 'aaa'
-  }
-}
-
 const useAuth = () => {
-  const user = useUser()
-  const isLoggedIn = computed(() => !!user)
+  const errors = ref({})
+  const router = useRouter()
+  const store = useUserStore()
 
-  async function login(credentials: Login) {
-    const response = await apiClient.post('/login', credentials)
+  const login = async (params: Login) => {
+    errors.value = {}
 
-    console.log('response ', response)
+    try {
+      const response = await axios.post('/login', params)
+
+      const token = `${response.data.token_type} ${response.data.access_token}`
+      Cookie.setToken(token)
+      router.push({ name: 'index' })
+    } catch (e: any) {
+      if (e.response?.status === 422) {
+        errors.value = dataFormat.formatErrors(e.response.data.errors)
+      } else if (e.response.status === 401) {
+        errors.value = { general: e.response.data.message }
+      }
+    }
   }
 
   return {
-    user,
-    isLoggedIn,
-    login
+    errors,
+    login,
+    store
   }
 }
 
 export default useAuth
-
-// export const fetchCurrentUser = async () => {
-//   try {
-//     return await $larafetch<User>('/api/user', {
-//       redirectIfNotAuthenticated: false
-//     })
-//   } catch (error) {
-//     if ([401, 419].includes(error?.response?.status)) return null
-//     throw error
-//   }
-// }
