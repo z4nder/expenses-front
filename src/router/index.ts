@@ -5,6 +5,7 @@ import LayoutGuest from '../layouts/Guest.vue'
 import LayoutDefault from '../layouts/Default.vue'
 
 import Login from '../pages/auth/login.vue'
+import Register from '../pages/auth/register.vue'
 
 import ExpenseIndex from '../pages/expense/index.vue'
 
@@ -13,7 +14,7 @@ const routes = [
     path: '/',
     component: LayoutDefault,
     beforeEnter: Guard.redirectIfNotAuthenticated,
-    children: [{ path: '', name: 'index', component: ExpenseIndex }]
+    children: [{ path: '', name: 'expense.index', component: ExpenseIndex }]
   },
   {
     path: '/login',
@@ -24,7 +25,7 @@ const routes = [
   {
     path: '/register',
     component: LayoutGuest,
-    children: [{ path: '', name: 'register', component: Login }]
+    children: [{ path: '', name: 'register', component: Register }]
   }
 ]
 

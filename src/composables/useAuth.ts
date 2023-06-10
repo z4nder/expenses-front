@@ -15,7 +15,7 @@ type Register = {
   name: string
   email: string
   password: string
-  confirm_password: string
+  password_confirmation: string
 }
 
 const useAuth = () => {
@@ -31,7 +31,7 @@ const useAuth = () => {
 
       const token = `${response.data.token_type} ${response.data.access_token}`
       Cookie.setToken(token)
-      router.push({ name: 'index' })
+      router.push({ name: 'expense.index' })
     } catch (e: any) {
       if (e.response?.status === 422) {
         errors.value = dataFormat.formatErrors(e.response.data.errors)
@@ -41,9 +41,37 @@ const useAuth = () => {
     }
   }
 
+  const register = async (params: Register) => {
+    errors.value = {}
+
+    try {
+      const response = await axios.post('/register', params)
+
+      const token = `${response.data.token_type} ${response.data.access_token}`
+      Cookie.setToken(token)
+      router.push({ name: 'expense.index' })
+    } catch (e: any) {
+      if (e.response?.status === 422) {
+        errors.value = dataFormat.formatErrors(e.response.data.errors)
+      }
+    }
+  }
+
+  const logout = async () => {
+    try {
+      await axios.post('/logout')
+      Cookie.deleteToken()
+      await router.push({ name: 'login' })
+    } catch (e) {
+      console.log('Internal error', e)
+    }
+  }
+
   return {
     errors,
     login,
+    register,
+    logout,
     store
   }
 }
