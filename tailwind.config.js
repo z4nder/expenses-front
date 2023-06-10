@@ -8,5 +8,5 @@ module.exports = {
   variants: {
     extend: {}
   },
-  plugins: []
+  plugins: ['@tailwindcss/forms', '@tailwindcss/typography', '@tailwindcss/aspect-ratio']
 }
