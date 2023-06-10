@@ -31,7 +31,7 @@ const useAuth = () => {
 
       const token = `${response.data.token_type} ${response.data.access_token}`
       Cookie.setToken(token)
-      router.push({ name: 'expense.index' })
+      router.push({ name: 'home' })
     } catch (e: any) {
       if (e.response?.status === 422) {
         errors.value = dataFormat.formatErrors(e.response.data.errors)
@@ -49,7 +49,7 @@ const useAuth = () => {
 
       const token = `${response.data.token_type} ${response.data.access_token}`
       Cookie.setToken(token)
-      router.push({ name: 'expense.index' })
+      router.push({ name: 'home' })
     } catch (e: any) {
       if (e.response?.status === 422) {
         errors.value = dataFormat.formatErrors(e.response.data.errors)

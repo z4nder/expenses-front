@@ -54,29 +54,27 @@
                   />
                 </div>
                 <nav class="mt-5 px-2 space-y-1">
-                  <a
+                  <router-link
                     v-for="item in navigation"
                     :key="item.name"
-                    :href="item.href"
+                    :to="item.href"
                     :class="[
                       item.current
-                        ? 'bg-primary-900 text-white'
-                        : 'text-primary-300 hover:bg-primary-700 hover:text-white',
+                        ? 'bg-gray-900 text-white'
+                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     ]"
                   >
                     <component
                       :is="item.icon"
                       :class="[
-                        item.current
-                          ? 'text-primary-300'
-                          : 'text-primary-400 group-hover:text-primary-300',
+                        item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
                         'mr-3 flex-shrink-0 h-6 w-6'
                       ]"
                       aria-hidden="true"
                     />
                     {{ item.name }}
-                  </a>
+                  </router-link>
                 </nav>
               </div>
               <div class="flex-shrink-0 flex bg-primary-800 p-4">
@@ -118,29 +116,27 @@
             />
           </div>
           <nav class="mt-5 flex-1 px-2 space-y-1">
-            <a
+            <router-link
               v-for="item in navigation"
               :key="item.name"
-              :href="item.href"
+              :to="item.href"
               :class="[
                 item.current
-                  ? 'bg-primary-900 text-white'
-                  : 'text-primary-300 hover:bg-primary-700 hover:text-white',
+                  ? 'bg-gray-900 text-white'
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                 'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
               ]"
             >
               <component
                 :is="item.icon"
                 :class="[
-                  item.current
-                    ? 'text-primary-300'
-                    : 'text-primary-400 group-hover:text-primary-300',
+                  item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
                   'mr-3 flex-shrink-0 h-6 w-6'
                 ]"
                 aria-hidden="true"
               />
               {{ item.name }}
-            </a>
+            </router-link>
           </nav>
         </div>
         <div class="flex-shrink-0 flex bg-primary-800 p-4">
@@ -190,15 +186,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import {
-  ChartPieIcon,
-  WalletIcon,
-  CubeIcon,
-  BookmarkIcon,
-  Bars4Icon,
-  XMarkIcon,
-  TrashIcon
-} from '@heroicons/vue/24/outline'
+import { WalletIcon, Bars4Icon, XMarkIcon, ChartBarIcon } from '@heroicons/vue/24/outline'
 import useAuth from '../composables/useAuth'
 import { useUserStore } from '../store/useUserStore'
 const userStore = useUserStore()
@@ -206,10 +194,16 @@ const { logout } = useAuth()
 
 const navigation = [
   {
-    name: 'Despesas',
-    href: '/',
-    icon: WalletIcon,
+    name: 'Home',
+    href: { name: 'home' },
+    icon: ChartBarIcon,
     current: true
+  },
+  {
+    name: 'Despesas',
+    href: { name: 'expense.index' },
+    icon: WalletIcon,
+    current: false
   }
 ]
 const sidebarOpen = ref(false)

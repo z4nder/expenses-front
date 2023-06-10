@@ -7,14 +7,21 @@ import LayoutDefault from '../layouts/Default.vue'
 import Login from '../pages/auth/login.vue'
 import Register from '../pages/auth/register.vue'
 
+import Home from '../pages/Home.vue'
 import ExpenseIndex from '../pages/expense/index.vue'
+import ExpenseCreate from '../pages/expense/create.vue'
+
+const expense = [
+  { path: 'expense', name: 'expense.index', component: ExpenseIndex },
+  { path: 'expense/create', name: 'expense.create', component: ExpenseCreate }
+]
 
 const routes = [
   {
     path: '/',
     component: LayoutDefault,
     beforeEnter: Guard.redirectIfNotAuthenticated,
-    children: [{ path: '', name: 'expense.index', component: ExpenseIndex }]
+    children: [{ path: '', name: 'home', component: Home }, ...expense]
   },
   {
     path: '/login',
