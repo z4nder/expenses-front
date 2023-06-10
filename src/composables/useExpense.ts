@@ -9,9 +9,10 @@ type Expense = {
   description: string
   formatted_value: string
   date: string
+  default_date_format: string
 }
 
-type StoreExpense = {
+type ExpenseParams = {
   value: string
   description: string
   date: string
@@ -31,7 +32,18 @@ const useExpense = () => {
     }
   }
 
-  const store = async (params: StoreExpense) => {
+  const show = async (id: number): Promise<Expense | undefined> => {
+    try {
+      const response = await axios.get(`/expenses/${id}`)
+      return response.data.data
+    } catch (e: any) {
+      if (e.response?.status === 403) {
+        router.push({ name: 'not_found' })
+      }
+    }
+  }
+
+  const store = async (params: ExpenseParams) => {
     errors.value = {}
 
     try {
@@ -45,13 +57,29 @@ const useExpense = () => {
     }
   }
 
+  const update = async (id: number, params: ExpenseParams) => {
+    try {
+      const response = await axios.put(`/expenses/${id}`, params)
+      router.push({ name: 'expense.index' })
+    } catch (e: any) {
+      if (e.response?.status === 422) {
+        errors.value = dataFormat.formatErrors(e.response.data.errors)
+      }
+      if (e.response?.status === 403) {
+        router.push({ name: 'not_found' })
+      }
+    }
+  }
+
   const destroy = async (expense: any) => {
     errors.value = {}
 
     try {
       await axios.delete(`/expenses/${expense.id}`)
     } catch (e: any) {
-      console.log('Internal error', e)
+      if (e.response?.status === 403) {
+        router.push({ name: 'not_found' })
+      }
     }
   }
 
@@ -60,6 +88,8 @@ const useExpense = () => {
     index,
     store,
     destroy,
+    show,
+    update,
     expenses
   }
 }

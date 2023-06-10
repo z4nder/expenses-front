@@ -42,13 +42,13 @@
         <div>
           <div class="-mt-px flex divide-x divide-gray-200">
             <div class="flex w-0 flex-1">
-              <a
-                href="#"
+              <router-link
+                :to="{ name: 'expense.edit', params: { id: expense.id } }"
                 class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
               >
                 <PencilIcon class="h-5 w-5 text-yellow-400" aria-hidden="true" />
                 Editar
-              </a>
+              </router-link>
             </div>
             <div class="-ml-px flex w-0 flex-1">
               <button
