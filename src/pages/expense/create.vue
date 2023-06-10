@@ -36,7 +36,7 @@
           type="number"
         />
         <div>
-          <v-button type="submit">Entrar</v-button>
+          <v-button type="submit">Criar</v-button>
         </div>
       </form>
     </div>

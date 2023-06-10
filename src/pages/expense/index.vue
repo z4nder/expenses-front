@@ -1,5 +1,17 @@
 <template>
   <div>
+    <v-modal
+      title="Deseja realmente deletar esse registro ?"
+      :open="showDeleteExpense"
+      @onClose="showDeleteExpense = false"
+    >
+      <ExpenseDelete
+        :expense="selectedExpense"
+        @onDelete="refresh"
+        @onCancel="showDeleteExpense = false"
+      />
+    </v-modal>
+
     <div class="flex items-center justify-between py-5">
       <h1 class="text-xl">Despsesas</h1>
       <router-link :to="{ name: 'expense.create' }">
@@ -39,13 +51,13 @@
               </a>
             </div>
             <div class="-ml-px flex w-0 flex-1">
-              <a
-                href="#"
+              <button
+                @click="openDelete(expense)"
                 class="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
               >
                 <TrashIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
                 Remover
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -56,25 +68,22 @@
 <script setup lang="ts">
 import useExpense from '../../composables/useExpense'
 const { index, expenses } = useExpense()
-import { onMounted, reactive } from 'vue'
-import { PencilIcon, TrashIcon, ArrowDownIcon, ArrowUpIcon } from '@heroicons/vue/24/outline'
-
-const stats = [
-  {
-    name: 'Ultimos 30 dias',
-    stat: 'R$ 500'
-  },
-  {
-    name: 'Ultimos 15 dias',
-    stat: 'R$ 200'
-  },
-  {
-    name: 'Ultimos 7 dias',
-    stat: 'R$ 300'
-  }
-]
+import { onMounted, ref } from 'vue'
+import { PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import ExpenseDelete from '../../components/expense/delete.vue'
 
 onMounted(async () => {
   await index()
 })
+
+const selectedExpense = ref()
+const showDeleteExpense = ref(false)
+const openDelete = (expense: any) => {
+  showDeleteExpense.value = true
+  selectedExpense.value = expense
+}
+const refresh = async () => {
+  showDeleteExpense.value = false
+  await index()
+}
 </script>

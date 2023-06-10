@@ -12,7 +12,7 @@ type Expense = {
 }
 
 type StoreExpense = {
-  value: number
+  value: string
   description: string
   date: string
 }
@@ -45,10 +45,21 @@ const useExpense = () => {
     }
   }
 
+  const destroy = async (expense: any) => {
+    errors.value = {}
+
+    try {
+      await axios.delete(`/expenses/${expense.id}`)
+    } catch (e: any) {
+      console.log('Internal error', e)
+    }
+  }
+
   return {
     errors,
     index,
     store,
+    destroy,
     expenses
   }
 }

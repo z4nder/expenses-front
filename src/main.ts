@@ -16,11 +16,13 @@ import input from './components/v/input.vue'
 import a from './components/v/a.vue'
 import button from './components/v/button.vue'
 import money from './components/v/money.vue'
+import modal from './components/v/modal.vue'
 
 app.component('v-input', input)
 app.component('v-a', a)
 app.component('v-button', button)
 app.component('v-money', money)
+app.component('v-modal', modal)
 
 app.config.globalProperties.$axios = axios
 
