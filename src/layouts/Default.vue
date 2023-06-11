@@ -49,7 +49,7 @@
                 <div class="flex-shrink-0 flex items-center px-4">
                   <img
                     class="rounded-full mx-auto h-20 w-auto w-auto"
-                    src="@/assets/img/logo.png"
+                    src="@/assets/img/onfly.svg"
                     alt="Workfow"
                   />
                 </div>
@@ -59,10 +59,7 @@
                     :key="item.name"
                     :to="item.href"
                     :class="[
-                      item.current
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      'text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     ]"
                   >
                     <component
@@ -111,7 +108,7 @@
           <div class="flex items-center flex-shrink-0 px-4">
             <img
               class="rounded-full mx-auto h-20 w-auto w-auto"
-              src="@/assets/img/logo.png"
+              src="@/assets/img/onfly.svg"
               alt="Workfow"
             />
           </div>
@@ -121,10 +118,7 @@
               :key="item.name"
               :to="item.href"
               :class="[
-                item.current
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                'text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md'
               ]"
             >
               <component
