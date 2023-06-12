@@ -83,6 +83,15 @@ const useExpense = () => {
     }
   }
 
+  const status = async () => {
+    try {
+      const response = await axios.get('/status/expense')
+      return response.data
+    } catch (e: any) {
+      console.log('Internal error', e)
+    }
+  }
+
   return {
     errors,
     index,
@@ -90,6 +99,7 @@ const useExpense = () => {
     destroy,
     show,
     update,
+    status,
     expenses
   }
 }

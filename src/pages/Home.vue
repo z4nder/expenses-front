@@ -4,11 +4,11 @@
       <dl
         class="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0"
       >
-        <div v-for="item in stats" :key="item.name" class="px-4 py-5 sm:p-6">
-          <dt class="text-base font-normal text-gray-900">{{ item.name }}</dt>
+        <div v-for="item in data" :key="item?.label" class="px-4 py-5 sm:p-6">
+          <dt class="text-base font-normal text-gray-900">{{ item?.label }}</dt>
           <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
             <div class="flex items-baseline text-2xl font-semibold text-primary-600">
-              {{ item.stat }}
+              {{ item?.value }}
             </div>
           </dd>
         </div>
@@ -31,4 +31,12 @@ const stats = [
     stat: 'R$ 300'
   }
 ]
+import useExpense from '../composables/useExpense'
+const { status, expenses } = useExpense()
+import { onMounted, ref } from 'vue'
+
+const data = ref([])
+onMounted(async () => {
+  data.value = await status()
+})
 </script>
