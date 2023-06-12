@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-modal
-      title="Deseja realmente deletar esse registro ?"
+      title="Deseja realmente deletar ?"
       :open="showDeleteExpense"
       @onClose="showDeleteExpense = false"
     >
